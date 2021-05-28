@@ -1,0 +1,8 @@
+//  ! Requires Wes Bos config installed globally
+//  See: https://github.com/wesbos/eslint-config-wesbos
+{
+  "extends": ["wesbos"],
+  "rules": {
+    "no-use-before-define": 0
+  }
+}

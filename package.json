@@ -1,0 +1,33 @@
+{
+  "name": "page-loader",
+  "version": "0.1.0",
+  "description": "PageLoader is a small library for loading pages without needing full page refreshes.",
+  "license": "UNLICENSED",
+  "browserslist": [
+    "last 3 chrome versions",
+    "last 3 safari versions",
+    "last 3 firefox versions",
+    "not dead"
+  ],
+  "scripts": {
+    "dev": "rollup --config --environment BUILD:dev --file js/build/bundle.js",
+    "build": "rollup --config --environment BUILD:production | babel --no-babelrc --presets=@babel/preset-env | terser --compress drop_console=true --mangle --output js/build/bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://chris-corby@bitbucket.org/chris-corby/ccajax.git"
+  },
+  "author": "Chris Corby",
+  "homepage": "https://bitbucket.org/chris-corby/ccajax#readme",
+  "devDependencies": {
+    "rollup": "^2.50.3"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.2",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "terser": "^5.7.0"
+  }
+}
