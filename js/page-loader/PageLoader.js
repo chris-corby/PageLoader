@@ -3,11 +3,10 @@ import { cleanDOM } from './utilities/cleanDOM';
 import { connectionIsOkForPrefetching } from './utilities/connectionIsOkForPrefetching';
 import { dispatchEvent as notifyApplicationOfEvent } from './utilities/dispatchEvent';
 import { errorToLocation } from './utilities/errorToLocation';
-import { fetchWithTimeout } from './utilities/fetchWithTimeout';
+import { fetchNewDOM } from './utilities/fetchNewDOM';
 import { getClosestInternalLinkFromEvent } from './utilities/getClosestInternalLinkFromEvent';
 import { getTimestamp } from './utilities/getTimestamp';
 import { interactionEventIsPermissible } from './utilities/interactionEventIsPermissible';
-import { parseHTMLDocument } from './utilities/parseHTMLDocument';
 import { prefetchLocation } from './utilities/prefetchLocation';
 import { setScrollPosition } from './utilities/setScrollPosition';
 import { transitionPromise } from './utilities/transitionPromise';
@@ -335,7 +334,7 @@ export class PageLoader {
   }
 
   async createVisit(location) {
-    const DOM = await this.fetchNewDOM(location);
+    const DOM = await fetchNewDOM(location);
 
     if (this.trackedAssetsHaveChanged(await DOM)) {
       throw new Error('Tracked assets have changed');
@@ -355,27 +354,6 @@ export class PageLoader {
     this.prefetchedLocations.add(location);
 
     return visit;
-  }
-
-  async fetchNewDOM(location) {
-    const response = await fetchWithTimeout(location, {
-      timeout: 8000,
-      method: 'GET',
-      credentials: 'same-origin',
-      headers: {
-        Accept: 'text/html, application/xhtml+xml',
-      },
-    });
-
-    const networkError = await !response.ok;
-    if (networkError) {
-      throw new Error('Network error');
-    }
-
-    const rawDOM = parseHTMLDocument(await response.text());
-    const DOM = cleanDOM(rawDOM);
-
-    return DOM;
   }
 
   trackedAssetsHaveChanged(newDOM) {
