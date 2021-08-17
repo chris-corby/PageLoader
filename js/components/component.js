@@ -1,58 +1,62 @@
-//
-//  Component.js
-
-const Component = (function() {
-  function init() {
-    listenForPageLoaderEvents();
+export class Component {
+  constructor() {
+    //  Bind event listeners
+    this.beforePrefetch = this.beforePrefetch.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.beforeNavigation = this.beforeNavigation.bind(this);
+    this.beforeLoad = this.beforeLoad.bind(this);
+    this.beforeCache = this.beforeCache.bind(this);
+    this.onLoad = this.onLoad.bind(this);
   }
 
-  function listenForPageLoaderEvents() {
-    document.addEventListener('page-loader:before-prefetch', beforePrefetch);
-    document.addEventListener('page-loader:click', onClick);
+  init() {
+    this.listenForPageLoaderEvents();
+  }
+
+  listenForPageLoaderEvents() {
+    document.addEventListener(
+      'page-loader:before-prefetch',
+      this.beforePrefetch
+    );
+    document.addEventListener('page-loader:click', this.onClick);
     document.addEventListener(
       'page-loader:before-navigation',
-      beforeNavigation
+      this.beforeNavigation
     );
-    document.addEventListener('page-loader:before-load', beforeLoad);
-    document.addEventListener('page-loader:before-cache', beforeCache);
-    document.addEventListener('page-loader:load', onLoad);
+    document.addEventListener('page-loader:before-load', this.beforeLoad);
+    document.addEventListener('page-loader:before-cache', this.beforeCache);
+    document.addEventListener('page-loader:load', this.onLoad);
   }
 
-  function beforePrefetch(event) {
+  beforePrefetch(event) {
     console.log(event);
     // event.preventDefault();
   }
 
-  function onClick(event) {
+  onClick(event) {
     console.log(event);
     // event.preventDefault();
   }
 
-  function beforeNavigation(event) {
+  beforeNavigation(event) {
     console.log(event);
     // event.preventDefault(); // (unless popstate)
     //  Go into loading state
   }
 
-  function beforeLoad(event) {
+  beforeLoad(event) {
     console.log(event);
     //  event.preventDefault(); // (unless popstate)
     //  Make changes to the incoming DOM
   }
 
-  function beforeCache(event) {
+  beforeCache(event) {
     console.log(event);
     //  Make changes to outgoing DOM before caching
   }
 
-  function onLoad(event) {
+  onLoad(event) {
     console.log(event);
     //  Come out of loading state, refresh components
   }
-
-  return {
-    init,
-  };
-})();
-
-export { Component as default };
+}

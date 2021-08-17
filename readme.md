@@ -15,6 +15,9 @@ Features:
 
 1. Copy the `js/page-loader` folder into your JS folder.
 1. Create a component like `js/components/PageLoading.js` that is going to start the PageLoader and manage loading states for your site.
+1. Add `data-page-track` attribute to tracked assets, see `index.html`
+1. Add `data-page-container` to each page, see `index.html`
+1. Add transition styles from `style.css`
 
 ## Size
 

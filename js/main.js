@@ -1,5 +1,5 @@
-import PageLoading from './components/PageLoading';
-import Component from './components/component';
+import { PageLoading } from './components/PageLoading';
+import { Component } from './components/component';
 
-PageLoading.init();
-Component.init();
+new PageLoading().init();
+new Component().init();

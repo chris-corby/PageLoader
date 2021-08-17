@@ -1,55 +1,56 @@
-//
-//  PageLoading.js
-
 import { PageLoader } from '../page-loader/PageLoader';
 
-const PageLoading = (function() {
-  let instance = false;
-  const loadingAttr = 'data-loading';
+export class PageLoading {
+  constructor() {
+    this.instance = false;
+    this.attributes = {
+      loading: `data-loading`,
+    };
 
-  function init() {
-    start();
-    listenForEvents();
+    //  Bind event listeners
+    this.addLoadingState = this.addLoadingState.bind(this);
+    this.removeLoadingState = this.removeLoadingState.bind(this);
   }
 
-  function start() {
-    instance = new PageLoader();
-    instance.start();
+  init() {
+    this.start();
+    this.listenForEvents();
+  }
+
+  start() {
+    this.instance = new PageLoader();
+    this.instance.start();
 
     //  Example with options
-    // instance = new PageLoader({
+    // this.instance = new PageLoader({
     //   cacheTimeoutInMinutes: 30,
     //   usePrefetch: false,
     // });
   }
 
-  function listenForEvents() {
-    document.addEventListener('page-loader:before-navigation', addLoadingState);
-    document.addEventListener('page-loader:load', removeLoadingState);
+  listenForEvents() {
+    document.addEventListener(
+      'page-loader:before-navigation',
+      this.addLoadingState
+    );
+    document.addEventListener('page-loader:load', this.removeLoadingState);
   }
 
-  function addLoadingState() {
-    document.body.setAttribute(loadingAttr, '');
+  addLoadingState() {
+    document.body.setAttribute(this.attributes.loading, '');
   }
 
-  function removeLoadingState() {
-    document.body.removeAttribute(loadingAttr);
+  removeLoadingState() {
+    document.body.removeAttribute(this.attributes.loading);
   }
 
-  function destroy() {
-    if (instance) instance.destroy();
+  destroy() {
+    if (this.instance) this.instance.destroy();
 
     document.removeEventListener(
       'page-loader:before-navigation',
-      addLoadingState
+      this.addLoadingState
     );
-    document.removeEventListener('page-loader:load', removeLoadingState);
+    document.removeEventListener('page-loader:load', this.removeLoadingState);
   }
-
-  return {
-    init,
-    destroy,
-  };
-})();
-
-export { PageLoading as default };
+}
