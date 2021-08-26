@@ -20,5 +20,5 @@ export async function fetchNewDOM(location) {
   const rawDOM = parseHTMLDocument(await response.text());
   const DOM = cleanDOM(rawDOM);
 
-  return DOM;
+  return { response, DOM };
 }

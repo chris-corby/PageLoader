@@ -334,14 +334,23 @@ export class PageLoader {
   }
 
   async createVisit(location) {
-    const DOM = await fetchNewDOM(location);
+    const { response, DOM } = await fetchNewDOM(location);
+
+    //  If the response is redirected by the server, use the redirected location
+    const responseLocation = (await response.redirected)
+      ? await response.url
+      : location;
+
+    //  Check the cache again in case we already have the redirected location
+    const cachedVisit = this.findCachedVisitFromLocation(responseLocation);
+    if (cachedVisit) return cachedVisit;
 
     if (this.trackedAssetsHaveChanged(await DOM)) {
       throw new Error('Tracked assets have changed');
     }
 
     const visit = {
-      location,
+      location: responseLocation,
       dom: await DOM,
       title: await DOM.title,
       scrollPosition: 0,
