@@ -273,7 +273,7 @@ export class PageLoader {
         if (this.loadIsPermissible(visit, { fromPopState })) {
           this.cacheCurrentPage();
 
-          await this.swapContent(visit);
+          await this.swapContent(visit, { fromPopState });
 
           this.updatePageState(visit, { fromPopState });
 
@@ -438,7 +438,7 @@ export class PageLoader {
    *  Swap Content
    */
 
-  async swapContent(visit) {
+  async swapContent(visit, { fromPopState = false }) {
     const oldContent = this.getPageContainerFromDOM(document.body);
     const newContent = this.getPageContainerFromDOM(visit.dom)?.cloneNode(true);
 
@@ -448,6 +448,11 @@ export class PageLoader {
     this.addNewContentToPage(newContent);
     await this.transitionOutOldContent(oldContent);
     oldContent.remove();
+
+    setScrollPosition({
+      y: fromPopState ? visit.scrollPosition : 0,
+    });
+
     await this.transitionInNewContent(newContent);
   }
 
@@ -486,10 +491,6 @@ export class PageLoader {
     updateTitle(visit.title);
 
     this.setCurrentLocation();
-
-    setScrollPosition({
-      y: fromPopState ? visit.scrollPosition : 0,
-    });
 
     notifyApplicationOfEvent('page-loader:load', {
       cancelable: false,
