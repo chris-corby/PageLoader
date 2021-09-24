@@ -25,6 +25,10 @@ export class Component {
     );
     document.addEventListener('page-loader:before-load', this.beforeLoad);
     document.addEventListener('page-loader:before-cache', this.beforeCache);
+    document.addEventListener(
+      'page-loader:between-content',
+      this.betweenContent
+    );
     document.addEventListener('page-loader:load', this.onLoad);
   }
 
@@ -53,6 +57,11 @@ export class Component {
   beforeCache(event) {
     console.log(event);
     //  Make changes to outgoing DOM before caching
+  }
+
+  betweenContent(event) {
+    console.log(event);
+    //  Make changes to the DOM before the new content is visible
   }
 
   onLoad(event) {

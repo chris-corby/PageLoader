@@ -453,6 +453,11 @@ export class PageLoader {
       y: fromPopState ? visit.scrollPosition : 0,
     });
 
+    notifyApplicationOfEvent('page-loader:between-content', {
+      cancelable: false,
+      detail: { visit },
+    });
+
     await this.transitionInNewContent(newContent);
   }
 

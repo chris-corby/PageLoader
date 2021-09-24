@@ -77,6 +77,12 @@ Ideally, PageLoader should be _identical_ between projects, and customisation sh
 - Details: -
 - Fired before the current page is cached. Make changes needed before it could be shown again, e.g. clear forms.
 
+`page-loader:between-content`
+
+- Cancellable: No
+- Details: `visit`
+- Fired after the old content has transitioned out but before the new content has transitioned in. Make changes that should be invisible, or should apply to the new content before it comes in e.g. changing body classes, updating colors.
+
 `page-loader:load`
 
 - Cancellable: No
