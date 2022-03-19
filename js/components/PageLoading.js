@@ -33,11 +33,21 @@ export class PageLoading {
       'page-loader:before-navigation',
       this.addLoadingState
     );
+    document.addEventListener('page-loader:transition', this.customTransition);
     document.addEventListener('page-loader:load', this.removeLoadingState);
   }
 
   addLoadingState() {
     document.body.setAttribute(this.attributes.loading, '');
+  }
+
+  customTransition(event) {
+    const { visit, fromPopState, oldContent, newContent } = event.detail;
+
+    //  Cancel the default transition
+    // event.preventDefault();
+
+    //  Manage your own transition...
   }
 
   removeLoadingState() {

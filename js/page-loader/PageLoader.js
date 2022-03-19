@@ -135,7 +135,7 @@ export class PageLoader {
       DOM.querySelectorAll(`[${this.elementAttrs.track}]`)
     );
 
-    const assetSrcs = assets.map(asset => asset.src || asset.href);
+    const assetSrcs = assets.map((asset) => asset.src || asset.href);
 
     return assetSrcs;
   }
@@ -301,7 +301,7 @@ export class PageLoader {
   }
 
   removeStaleVisitsFromCache() {
-    this.visitCache = this.visitCache.filter(visit =>
+    this.visitCache = this.visitCache.filter((visit) =>
       this.isVisitFresh(visit.timestamp)
     );
   }
@@ -316,7 +316,7 @@ export class PageLoader {
   }
 
   flagVisitsAsCached() {
-    this.visitCache.forEach(visit => {
+    this.visitCache.forEach((visit) => {
       visit.loadedFromCache = true;
     });
   }
@@ -330,7 +330,7 @@ export class PageLoader {
   }
 
   findCachedVisitFromLocation(location) {
-    return this.visitCache.find(visit => visit.location === location);
+    return this.visitCache.find((visit) => visit.location === location);
   }
 
   async createVisit(location) {
@@ -372,7 +372,7 @@ export class PageLoader {
       newTrackedAssets.length !== this.trackedAssets.length;
 
     const assetsAreMissing = newTrackedAssets.some(
-      asset => !this.trackedAssets.includes(asset)
+      (asset) => !this.trackedAssets.includes(asset)
     );
 
     return assetQuantityHasChanged || assetsAreMissing;
@@ -445,6 +445,30 @@ export class PageLoader {
     if (!oldContent) throw new Error('Old content not found');
     if (!newContent) throw new Error('New content not found');
 
+    if (
+      this.transitionIsPermissible({
+        visit,
+        fromPopState,
+        oldContent,
+        newContent,
+      })
+    ) {
+      await this.defaultTransition({
+        visit,
+        fromPopState,
+        oldContent,
+        newContent,
+      });
+    }
+  }
+
+  transitionIsPermissible(detail) {
+    return applicationAllowsEvent('page-loader:transition', {
+      detail,
+    });
+  }
+
+  async defaultTransition({ visit, fromPopState, oldContent, newContent }) {
     this.addNewContentToPage(newContent);
     await this.transitionOutOldContent(oldContent);
     oldContent.remove();
