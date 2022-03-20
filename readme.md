@@ -140,6 +140,10 @@ Removes all event listeners so PageLoader will no longer perform. Be aware that 
 
 To trigger a visit manually, run `PageLoader.navigate(URL)`. This allows you to take full advantage of caching and transitions.
 
+## Link Opt-Out
+
+To stop PageLoader from trying to operate on a link, add the `data-page-no-load` attribute to it.
+
 ## Browser support
 
 PageLoader uses modern JavaScript and out of the box it only supports new-ish browsers.
