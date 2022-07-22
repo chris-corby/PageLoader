@@ -1,8 +1,10 @@
 import { PageLoader } from '../page-loader/PageLoader';
+import { CacheRefresher } from '../page-loader/CacheRefresher';
 
 export class PageLoading {
   constructor() {
     this.instance = false;
+    this.cacheRefresher = false;
     this.attributes = {
       loading: `data-loading`,
     };
@@ -26,6 +28,16 @@ export class PageLoading {
     //   cacheTimeoutInMinutes: 30,
     //   usePrefetch: false,
     // });
+
+    //  Example of refreshing lazysizes classes on cached pages
+    // this.cacheRefresher = new CacheRefresher([
+    //   {
+    //     fresh: ['lazyload'],
+    //     stale: ['lazyloading', 'lazyloaded'],
+    //     flag: 'data-lazyload-refresher',
+    //   },
+    // ]);
+    // this.cacheRefresher.init();
   }
 
   listenForEvents() {
@@ -56,6 +68,7 @@ export class PageLoading {
 
   destroy() {
     if (this.instance) this.instance.destroy();
+    if (this.cacheRefresher) this.cacheRefresher.destroy();
 
     document.removeEventListener(
       'page-loader:before-navigation',

@@ -112,6 +112,16 @@ To force a full page reload if critical assets change (e.g. global stylesheets o
 
 For this to work, the `src` attribute must have changed, so make sure it contains a cachebusting feature like a timestamp, e.g. `/style.css?ver=1618228629529`. They must also be present on all pages you intend to use PageLoader with.
 
+### Cache Refresher
+
+The CacheRefresher simplifies refreshing classes for elements on cached pages when they are re-rendered.
+
+This is helpful in situations where classes are modified during interaction with a page, but on a new load of the page you need the original classes back. A good example of this is lazy loading through a library like [lazysizes](https://github.com/aFarkas/lazysizes);
+
+This works by setting a unique flag on the elements with the classes, and swapping out the stale classes for the fresh ones when the page is reloaded.
+
+The inclusion of this is optional and is not needed if you have caching turned off.
+
 ## Prefetching
 
 To speed up page loads even further, PageLoader will trigger prefetches on the requested pages.
