@@ -12,6 +12,7 @@ import { setScrollPosition } from './utilities/setScrollPosition';
 import { transitionPromise } from './utilities/transitionPromise';
 import { updateHistory } from './utilities/updateHistory';
 import { updateTitle } from './utilities/updateTitle';
+import { updateHead } from './utilities/updateHead';
 
 export class PageLoader {
   constructor({
@@ -518,6 +519,7 @@ export class PageLoader {
     if (!fromPopState) updateHistory(visit.location);
 
     updateTitle(visit.title);
+    updateHead(visit.dom);
 
     this.setCurrentLocation();
 
