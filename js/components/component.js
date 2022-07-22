@@ -62,6 +62,10 @@ export class Component {
   betweenContent(event) {
     console.log(event);
     //  Make changes to the DOM before the new content is visible
+
+    //  E.g. Update the body class
+    //  const { dom } = event.detail.visit;
+    //  document.body.setAttribute('class', dom.body.getAttribute('class'));
   }
 
   onLoad(event) {
