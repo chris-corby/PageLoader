@@ -9,7 +9,7 @@ export class CacheRefresher {
 
   listenForPageLoaderEvents() {
     document.addEventListener('page-loader:before-cache', this);
-    document.addEventListener('page-loader:load', this);
+    document.addEventListener('page-loader:between-content', this);
   }
 
   handleEvent(event) {
@@ -17,7 +17,7 @@ export class CacheRefresher {
 
     if (type === 'page-loader:before-cache') {
       this.beforeCache();
-    } else if (type === 'page-loader:load') {
+    } else if (type === 'page-loader:between-content') {
       this.postLoad(event);
     }
   }
@@ -67,6 +67,6 @@ export class CacheRefresher {
 
   destroy() {
     document.removeEventListener('page-loader:before-cache', this);
-    document.removeEventListener('page-loader:load', this);
+    document.removeEventListener('page-loader:between-content', this);
   }
 }
